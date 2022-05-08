@@ -25,10 +25,25 @@ export class MealsService {
 
   }
 
+  updateMeal(userData: mealsDto, mealId: string): Observable<any> {
+
+
+    const currentUserName = this.authService.getFieldFromJWT('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
+
+    return this.http.put<any>(this.apiURL + currentUserName + '/meals/' + mealId, userData);
+
+  }
+
   getMeals(): Observable<any> {
     const currentUserName = this.authService.getFieldFromJWT('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
     console.log(this.apiURL + currentUserName + '/meals');
     return this.http.get(this.apiURL + currentUserName + '/meals');
+  }
+
+  getMeal(mealId:string): Observable<any> {
+    const currentUserName = this.authService.getFieldFromJWT('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
+    console.log(this.apiURL + currentUserName + '/meals');
+    return this.http.get(this.apiURL + currentUserName + '/meals/'+ mealId);
   }
 
   deleteMealforUser(id: string): Observable<any> {

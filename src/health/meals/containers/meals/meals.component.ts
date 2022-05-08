@@ -22,8 +22,8 @@ import {Router} from "@angular/router";
           New meal
         </a>
       </div>
-      <div *ngIf="meals; else loading;">
-        <div class="message" *ngIf="false">
+      <div *ngIf="MealsWithIngredients; else loading;">
+        <div class="message" *ngIf="!MealsWithIngredients.length">
           <img src="assets/img/face.svg">
           No meals, add a new meal to start
         </div>

@@ -10,13 +10,20 @@ import {Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy}
 
         <p class="list-item__name">{{ item.name }}</p>
         <p class="list-item__ingredients">
-          <span
-            *ngFor="let ingredient of item.ingredients.$values"
-          >
+        <span *ngIf="this.item.hasOwnProperty('ingredients'); else showWorkout">
+             <span
+               *ngFor="let ingredient of item.ingredients.$values"
+
+             >
+
             {{ingredient.name}}
           </span>
-        </p>
+        </span>
 
+        </p>
+        <ng-template #showWorkout>
+          <span>{{item | workout  }}</span>
+        </ng-template>
       </a>
 
       <div
@@ -47,7 +54,7 @@ import {Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy}
     </div>
   `
 })
-export class ListItemComponent {
+export class ListItemComponent implements OnInit{
 
   toggled = false;
 
@@ -69,7 +76,15 @@ export class ListItemComponent {
   }
 
   getRoute(item: any) {
-    return [`../meals`, item.$key];
+    if(this.item.hasOwnProperty('ingredients')){
+      return [`../meals`, item.mealId];
+    }else {
+      return [`../workouts`, item.workoutId];
+    }
+
   }
 
+  ngOnInit(): void {
+   console.log("ground for diverse checking of object's fields")
+  }
 }

@@ -3,12 +3,17 @@ import { CommonModule } from '@angular/common';
 import {RouterModule} from "@angular/router";
 import {MealsService} from "./meals/meals.service";
 import { ListItemComponent } from './components/list-item/list-item.component';
+import {WorkoutsService} from "./workouts/workouts.service";
+import {WorkoutPipe} from "./pipes/workout.pipe";
+
 
 
 
 @NgModule({
   declarations: [
-    ListItemComponent
+    ListItemComponent,
+    WorkoutPipe
+
   ],
   imports: [
     CommonModule,
@@ -16,7 +21,8 @@ import { ListItemComponent } from './components/list-item/list-item.component';
 
   ],
   exports: [
-    ListItemComponent
+    ListItemComponent,
+    WorkoutPipe
   ],
 
 })
@@ -25,7 +31,8 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        MealsService
+        MealsService,
+        WorkoutsService
       ]
     };
   }
