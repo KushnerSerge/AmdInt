@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {AuthService} from "../../../shared/services/auth/auth.service";
 import {Router} from "@angular/router";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'login',
@@ -22,18 +23,25 @@ export class LoginComponent {
 
   constructor(private securityService: AuthService, private router: Router) {
   }
+  private ngUnsubscribe = new Subject<void>();
 
-  errors: string[] = [];
   loginUser(event: FormGroup) {
     console.log(event.value);
-    this.errors = [];
-    this.securityService.login(event.value).subscribe(authenticationResponse => {
-      console.log(authenticationResponse);
+
+    this.securityService.login(event.value)
+      .pipe(
+      takeUntil(this.ngUnsubscribe)
+      ).subscribe(authenticationResponse => {
       this.securityService.saveToken(authenticationResponse);
       this.router.navigate(['/']);
-    }, error => {console.log( error)});
-this.securityService.isAuthenticated();
+    });
+    this.securityService.isAuthenticated();
   }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
+}
 
 

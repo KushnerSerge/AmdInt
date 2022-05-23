@@ -25,13 +25,11 @@ export class AuthService {
   private readonly refreshTokenKey: string = 'refresh-token'
 
 
-
-
-  register(userCredentials: userCredentials): Observable<any>{
+  register(userCredentials: userCredentials): Observable<userCredentials>{
 
     var postreqObj = {...userCredentials, roles: ["Manager", "Administrator"]};
      console.log(userCredentials);
-    return this.http.post<any>(this.apiURL , postreqObj);
+    return this.http.post<userCredentials>(this.apiURL , postreqObj);
   }
 
   login(userData: userDTO): Observable<authenticationResponse>{
@@ -42,13 +40,11 @@ export class AuthService {
     console.log("am salvat urmatorul token");
     console.log(authenticationResponse.token);
     localStorage.setItem(this.tokenKey, authenticationResponse.token);
-
   }
 
 
   isAuthenticated(): boolean{
     const token = localStorage.getItem(this.tokenKey);
-
     //console.log(String(token));
     if (!token){
       return false;
@@ -62,14 +58,17 @@ export class AuthService {
       this.logout();
       return false;
     }
-
     return true;
   }
 
 
    private tokenExpired(token: string) {
-  const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
     return (Math.floor((new Date).getTime() / 1000)) >= expiry;
+}
+
+getToken() {
+    return localStorage.getItem(this.tokenKey);
 }
 
   getFieldFromJWT(field: string): string {

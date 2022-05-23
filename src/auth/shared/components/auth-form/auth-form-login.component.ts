@@ -28,10 +28,6 @@ import {Router} from "@angular/router";
             formControlName="password">
         </label>
 
-
-
-
-
         <div class="error" *ngIf="usernameInvalid">
           UserName is required
         </div>
@@ -39,8 +35,6 @@ import {Router} from "@angular/router";
         <div class="error" *ngIf="passwordInvalid">
           Password is required
         </div>
-
-
 
         <ng-content select=".error"></ng-content>
 
@@ -64,10 +58,6 @@ export class AuthFormCLoginomponent {
   form = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
-
-
-
-
   });
 
   constructor(

@@ -5,6 +5,8 @@ import { AuthFormComponent } from './components/auth-form/auth-form.component';
 import {AuthService} from "./services/auth/auth.service";
 import {AuthFormCLoginomponent} from "./components/auth-form/auth-form-login.component";
 import {AuthGuard} from "./guards/auth.guard";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {JwtInterceptorService} from "./interceptors/jwt-interceptor.service";
 
 
 
@@ -28,6 +30,11 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: JwtInterceptorService,
+          multi: true
+        },
         AuthService,
         AuthGuard
       ]

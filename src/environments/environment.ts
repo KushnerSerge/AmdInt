@@ -5,6 +5,7 @@
 export const environment = {
    production: false,
   apiURL: "https://localhost:5001/api/",
+  claimName: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
 };
 
 /*

@@ -12,6 +12,12 @@
     right: 0;
     cursor: pointer;
   }
+  &__user-info_1 {
+    position: absolute;
+    top: 4px;
+    right: 50px;
+    cursor: pointer;
+  }
   span {
     background: url(/assets/img/logout.svg) no-repeat;
     background-size: contain;

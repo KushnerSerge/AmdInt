@@ -32,7 +32,6 @@ import {Router} from "@angular/router";
           *ngFor="let meal of MealsWithIngredients"
           [item]="meal"
           (remove)="removeMeal($event)">
-
           >
         </list-item>
       </div>
@@ -46,6 +45,7 @@ import {Router} from "@angular/router";
   `
 })
 export class MealsComponent implements OnInit, OnDestroy {
+
   private ngUnsubscribe = new Subject<void>();
   MealsWithIngredients: any;
 
@@ -56,28 +56,20 @@ export class MealsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-
     this.loadMeals()
   }
 
-
   loadMeals() {
-     this.mealsService.getMeals()
+    this.mealsService.getMeals()
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(data => {
-        this.MealsWithIngredients=data.$values
-        console.log("data este", data);
+        this.MealsWithIngredients = data.$values
       });
   }
 
-
-
   removeMeal(event: any) {
-    console.log("mealId for deletion is" + event.mealId);
-    // this.mealsWithIng$.filter(itm =>  itm.mealId !== event.mealId);
-
     this.mealsService.deleteMealforUser(event.mealId).subscribe(() => {
       this.loadMeals();
     });

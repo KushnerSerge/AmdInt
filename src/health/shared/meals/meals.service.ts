@@ -12,6 +12,7 @@ import {Observable} from "rxjs";
 export class MealsService {
 
   private apiURL = environment.apiURL + "users/";
+  private claimName = environment.claimName;
 
   constructor(public authService: AuthService, private http: HttpClient, private router: Router) {
   }
@@ -19,7 +20,7 @@ export class MealsService {
   createMeal(userData: mealsDto): Observable<any> {
 
 
-    const currentUserName = this.authService.getFieldFromJWT('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
+    const currentUserName = this.authService.getFieldFromJWT(this.claimName);
 
     return this.http.post<any>(this.apiURL + currentUserName + '/meals', userData);
 
@@ -28,26 +29,26 @@ export class MealsService {
   updateMeal(userData: mealsDto, mealId: string): Observable<any> {
 
 
-    const currentUserName = this.authService.getFieldFromJWT('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
+    const currentUserName = this.authService.getFieldFromJWT(this.claimName);
 
     return this.http.put<any>(this.apiURL + currentUserName + '/meals/' + mealId, userData);
 
   }
 
   getMeals(): Observable<any> {
-    const currentUserName = this.authService.getFieldFromJWT('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
+    const currentUserName = this.authService.getFieldFromJWT(this.claimName);
     console.log(this.apiURL + currentUserName + '/meals');
     return this.http.get(this.apiURL + currentUserName + '/meals');
   }
 
   getMeal(mealId:string): Observable<any> {
-    const currentUserName = this.authService.getFieldFromJWT('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
+    const currentUserName = this.authService.getFieldFromJWT(this.claimName);
     console.log(this.apiURL + currentUserName + '/meals');
     return this.http.get(this.apiURL + currentUserName + '/meals/'+ mealId);
   }
 
   deleteMealforUser(id: string): Observable<any> {
-    const currentUserName = this.authService.getFieldFromJWT('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
+    const currentUserName = this.authService.getFieldFromJWT(this.claimName);
     console.log(this.apiURL + currentUserName + '/meals');
     return this.http.delete(this.apiURL + currentUserName + '/meals/' + id);
   }

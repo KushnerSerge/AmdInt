@@ -24,7 +24,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
         </div>
         <div>
           <meal-form
-            [meal]="meal$"
+            [meal]="meal"
             (create)="addMeal($event)"
             (update)="updateMeal($event)"
             (remove)="removeMeal($event)">
@@ -36,7 +36,7 @@ import {Observable, Subject, takeUntil} from "rxjs";
 })
 export class MealComponent implements OnInit, OnDestroy {
   flag: boolean = true;
-  meal$: any;
+  meal: any;
   private ngUnsubscribe = new Subject<void>();
 
   constructor(private mealService: MealsService, private router: Router, private route: ActivatedRoute) {
@@ -87,7 +87,7 @@ export class MealComponent implements OnInit, OnDestroy {
   }
 
   async removeMeal(event: any) {
-    this.mealService.deleteMealforUser(this.meal$.mealId)
+    this.mealService.deleteMealforUser(this.meal.mealId)
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
@@ -95,10 +95,7 @@ export class MealComponent implements OnInit, OnDestroy {
         this.router.navigate(['/meals']);
       })
   }
-
-
   ngOnInit(): void {
-
     this.route.params.pipe(
       takeUntil(this.ngUnsubscribe)
     ).subscribe(params => {
@@ -108,8 +105,8 @@ export class MealComponent implements OnInit, OnDestroy {
             takeUntil(this.ngUnsubscribe)
           )
           .subscribe(data => {
-            this.meal$ = data;
-            console.log(this.meal$);
+            this.meal = data;
+            console.log(this.meal);
           });
       } else this.flag = false
     })
